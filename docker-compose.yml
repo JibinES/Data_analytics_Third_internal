@@ -1,0 +1,14 @@
+services:
+  pulseiq:
+    build: .
+    image: pulseiq:latest
+    ports:
+      - "8501:8501"
+    environment:
+      # sample = 2M-row dev sample, full = data/raw/2019-Oct.csv.gz (+ Nov when present)
+      PULSEIQ_SOURCE: ${PULSEIQ_SOURCE:-sample}
+      PULSEIQ_MEMORY_LIMIT: ${PULSEIQ_MEMORY_LIMIT:-2GB}
+      PULSEIQ_THREADS: ${PULSEIQ_THREADS:-4}
+    volumes:
+      # Code and data are mounted so edits and pipeline output persist on the host
+      - ./:/app

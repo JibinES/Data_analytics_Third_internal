@@ -1,0 +1,10 @@
+# Used by setup.ps1 / setup.sh. Keeps data/ in a Docker volume instead of a folder shared
+# with the host: DuckDB is much faster there, especially on Windows.
+services:
+  pulseiq:
+    volumes:
+      - ./:/app
+      - pulseiq-data:/app/data
+
+volumes:
+  pulseiq-data:

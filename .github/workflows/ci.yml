@@ -1,0 +1,18 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker compose build
+      - name: Unit tests
+        # Warehouse-dependent page tests skip here; the data is not in git
+        run: docker compose run --rm pulseiq pytest -q
+      - name: dbt parse
+        run: docker compose run --rm pulseiq sh -c "cd dbt && dbt parse"
